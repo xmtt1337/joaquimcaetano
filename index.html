@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Sistema - Painel</title>
+    <title>Coração do Contestado</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -30,7 +30,7 @@
 
         .logo {
             padding: 20px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             background: #0f172a;
             text-align: center;
@@ -42,15 +42,35 @@
             overflow-y: auto;
         }
 
-        .menu a {
-            display: block;
+        .menu-item {
+            cursor: pointer;
             padding: 14px 20px;
             color: #cbd5e1;
-            text-decoration: none;
             font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .menu a:hover {
+        .menu-item:hover {
+            background: #1f2937;
+            color: #fff;
+        }
+
+        .submenu {
+            display: none;
+            background: #020617;
+        }
+
+        .submenu a {
+            display: block;
+            padding: 12px 40px;
+            font-size: 14px;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .submenu a:hover {
             background: #1f2937;
             color: #fff;
         }
@@ -100,18 +120,22 @@
 <!-- SIDEBAR -->
 <div class="sidebar">
     <div class="logo">
-        🚚 Meu Sistema
+        Coração do Contestado
     </div>
 
     <div class="menu">
-        <a href="#">📊 Painel</a>
-        <a href="#">📥 Entrada</a>
-        <a href="#">📤 Saída</a>
-        <a href="#">📦 Pedidos</a>
-        <a href="#">🚚 Transporte</a>
-        <a href="#">👥 Equipe</a>
-        <a href="#">📄 Relatórios</a>
-        <a href="#">⚙️ Configurações</a>
+
+        <!-- PRODUTOS -->
+        <div class="menu-item" onclick="toggleMenu()">
+            Produtos
+            <span>▾</span>
+        </div>
+
+        <div class="submenu" id="submenu-produtos">
+            <a href="#"> Pesquisar</a>
+            <a href="#"> Adicionar</a>
+        </div>
+
     </div>
 </div>
 
@@ -131,3 +155,16 @@
             </p>
         </div>
     </div>
+</div>
+
+<!-- JS -->
+<script>
+    function toggleMenu() {
+        const submenu = document.getElementById("submenu-produtos");
+        submenu.style.display =
+            submenu.style.display === "block" ? "none" : "block";
+    }
+</script>
+
+</body>
+</html>
