@@ -4,75 +4,155 @@
     <meta charset="UTF-8">
     <title>Meu Site</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #333;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
         }
+
         header {
-            background: #1f2937;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
             color: white;
-            padding: 20px;
+            padding: 80px 20px;
             text-align: center;
         }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #fff;
+            color: #1e40af;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #e5e7eb;
+        }
+
         main {
-            max-width: 900px;
-            margin: 40px auto;
+            max-width: 1100px;
+            margin: -60px auto 60px;
             padding: 20px;
+        }
+
+        section {
             background: white;
-            border-radius: 8px;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
-        h1 {
+
+        h2 {
             margin-top: 0;
+            font-size: 28px;
         }
-        .card {
-            background: #f9fafb;
-            padding: 20px;
-            border-radius: 6px;
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             margin-top: 20px;
         }
+
+        .card {
+            background: #f9fafb;
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
         footer {
             text-align: center;
-            padding: 15px;
-            margin-top: 40px;
+            padding: 20px;
+            color: #6b7280;
             font-size: 14px;
-            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 32px;
+            }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Bem-vindo ao meu site</h1>
-    <p>Site hospedado gratuitamente no GitHub Pages</p>
+    <h1>Seu projeto começa aqui</h1>
+    <p>
+        Uma landing page simples, moderna e rápida, hospedada gratuitamente no GitHub Pages.
+    </p>
+    <a href="#contato" class="btn">Entrar em contato</a>
 </header>
 
 <main>
-    <h2>Sobre</h2>
-    <p>
-        Este é um site simples criado em HTML e CSS, apenas para teste
-        ou apresentação inicial.
-    </p>
 
-    <div class="card">
-        <h3>O que eu faço</h3>
+    <section>
+        <h2>Sobre</h2>
         <p>
-            Aqui você pode escrever sobre seu trabalho, projeto ou serviço.
+            Este site foi criado em HTML e CSS, focado em simplicidade, desempenho
+            e visual profissional. Ideal para apresentação pessoal ou de serviços.
         </p>
-    </div>
+    </section>
 
-    <div class="card">
-        <h3>Contato</h3>
+    <section>
+        <h2>O que eu faço</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>💻 Desenvolvimento</h3>
+                <p>Criação de sites simples, rápidos e funcionais.</p>
+            </div>
+            <div class="card">
+                <h3>🎨 Design</h3>
+                <p>Layouts limpos, modernos e responsivos.</p>
+            </div>
+            <div class="card">
+                <h3>🚀 Publicação</h3>
+                <p>Hospedagem gratuita e configuração no GitHub Pages.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <h2>Contato</h2>
         <p>
-            Email: seuemail@email.com
+            📧 Email: <strong>seuemail@email.com</strong><br>
+            🌐 GitHub: <strong>github.com/seuusuario</strong>
         </p>
-    </div>
+    </section>
+
 </main>
 
 <footer>
-    © 2026 - Meu Site
+    © 2026 — Meu Site
 </footer>
 
 </body>
