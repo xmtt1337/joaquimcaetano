@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Login - Coração do Contestado</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="img/logo.png" type="image/png">
+<script src="https://unpkg.com/feather-icons"></script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #111827, #020617);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* LOGO DE FUNDO */
+    body::before {
+        content: "";
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        width: 1300px;
+        height: 1300px;
+        background: url('img/logosf.png') no-repeat center/contain;
+        opacity: 0.07;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .login-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 40px;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+        text-align: center;
+        z-index: 1;
+        backdrop-filter: blur(12px);
+        animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateY(-20px);}
+        100% { opacity: 1; transform: translateY(0);}
+    }
+
+    .login-card h1 {
+        margin-bottom: 30px;
+        font-size: 26px;
+        color: #111827;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .login-card input {
+        width: 100%;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid #d1d5db;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .login-card input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 12px rgba(37,99,235,0.4);
+        outline: none;
+    }
+
+    .senha-container {
+        position: relative;
+    }
+
+    .senha-container input {
+        padding-right: 50px;
+    }
+
+    .toggle-senha {
+        position: absolute;
+        right: 16px;
+        top: 40%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #6b7280;
+        transition: color 0.3s;
+    }
+
+    .toggle-senha:hover {
+        color: #111827;
+    }
+
+    .login-card button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #2563eb;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .login-card button:hover {
+        background: #1d4ed8;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+    }
+
+    .forgot {
+        margin-top: 18px;
+        font-size: 14px;
+    }
+
+    .forgot a {
+        color: #2563eb;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .forgot a:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 500px) {
+        body::before {
+            width: 300px;
+            height: 300px;
+        }
+        .login-card {
+            padding: 40px 30px;
+        }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="login-card">
+    <h1>GC Transportes - Express</h1>
+
+    <input type="text" id="usuario" placeholder="Usuário">
+
+    <div class="senha-container">
+        <input type="password" id="senha" placeholder="Senha">
+        <i data-feather="eye" class="toggle-senha"></i>
+    </div>
+
+    <button onclick="login()">Entrar</button>
+
+    <div class="forgot">
+        <a href="#" onclick="redefinirSenha()">Redefinir senha</a>
+    </div>
+</div>
+
+<script>
+    feather.replace(); // inicializa os ícones
+
+    const toggle = document.querySelector(".toggle-senha");
+    const senha = document.getElementById("senha");
+
+    toggle.addEventListener("click", () => {
+        if (senha.type === "password") {
+            senha.type = "text";
+            toggle.setAttribute("data-feather", "eye-off");
+        } else {
+            senha.type = "password";
+            toggle.setAttribute("data-feather", "eye");
+        }
+        feather.replace();
+    });
+
+    function login() {
+        const usuario = document.getElementById("usuario").value;
+        const senhaVal = document.getElementById("senha").value;
+
+        if (!usuario || !senhaVal) {
+            alert("Preencha usuário e senha");
+            return;
+        }
+
+        if (usuario === "caetano12345" && senhaVal === "Joaquim1975") {
+            window.location.href = "index.html";
+        } else {
+            alert("Usuário ou senha inválidos");
+        }
+    }
+
+    function redefinirSenha() {
+        alert("Entre em contato com o administrador do sistema.");
+    }
+</script>
+
+</body>
+</html>
