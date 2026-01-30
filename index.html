@@ -208,12 +208,41 @@ function carregarAdicionar() {
 
 function adicionarProduto() {
     const produtos = obterProdutos();
-    const codigo = codigo.value.trim(), nome = nome.value.trim();
-    if (!codigo || !nome) return;
-    produtos.push({ codigo, nome, categoria:categoria.value, precoKg:+precoKg.value||0, estoque:+estoque.value||0, status:true });
+
+    const codigoEl = document.getElementById("codigo");
+    const nomeEl = document.getElementById("nome");
+    const categoriaEl = document.getElementById("categoria");
+    const precoEl = document.getElementById("precoKg");
+    const estoqueEl = document.getElementById("estoque");
+    const msgEl = document.getElementById("msg");
+
+    const codigo = codigoEl.value.trim();
+    const nome = nomeEl.value.trim();
+
+    if (!codigo || !nome) {
+        msgEl.innerText = "Preencha código e nome!";
+        return;
+    }
+
+    produtos.push({
+        codigo: codigo,
+        nome: nome,
+        categoria: categoriaEl.value,
+        precoKg: +precoEl.value || 0,
+        estoque: +estoqueEl.value || 0,
+        status: true
+    });
+
     salvarProdutos(produtos);
-    msg.innerText = "Produto salvo!";
+    msgEl.innerText = "Produto salvo!";
+
+    codigoEl.value = "";
+    nomeEl.value = "";
+    categoriaEl.value = "";
+    precoEl.value = "";
+    estoqueEl.value = "";
 }
+
 
 function alternarStatus(codigo) {
     const produtos = obterProdutos();
@@ -228,4 +257,5 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
