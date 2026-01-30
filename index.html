@@ -24,6 +24,8 @@ body { display:flex; height:100vh; background:#f5f6fa; color:#333; }
     opacity: 0.45;
     filter: grayscale(60%);
 }
+.msg-erro { color:#b91c1c; margin-bottom:10px; }
+.msg-ok { color:#15803d; margin-bottom:10px; }    
 .btn-delete:hover {
     background:#fecaca;
     transform:scale(1.05);
@@ -249,9 +251,11 @@ function adicionarProduto() {
     const nome = nomeEl.value.trim();
 
     if (!codigo || !nome) {
-        msgEl.innerText = "Preencha código e nome!";
-        return;
-    }
+    msgEl.className = "msg-erro";
+    msgEl.innerText = "Preencha código e nome!";
+    return;
+}
+
 
     produtos.push({
         codigo: codigo,
@@ -263,7 +267,8 @@ function adicionarProduto() {
     });
 
     salvarProdutos(produtos);
-    msgEl.innerText = "Produto salvo!";
+    msgEl.className = "msg-ok";
+msgEl.innerText = "Produto salvo!";
 
     codigoEl.value = "";
     nomeEl.value = "";
@@ -286,6 +291,7 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
 
 
