@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" href="img/logo.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/feather-icons"></script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        min-width: 320px;
+        min-height: 480px;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #f6e4a2, #f7c408);
+        position: relative;
+        overflow: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1700px;
+        height: 1700px;
+        background: url('img/logo.png') no-repeat center/contain;
+        opacity: 0.05;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .login-card {
+        position: relative;
+        background: #f6e4a2;
+        padding: 50px 40px;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 15px 40px rgba(121, 41, 9, 0.4);
+        text-align: center;
+        z-index: 1;
+        backdrop-filter: blur(12px);
+        animation: fadeIn 1s ease forwards;
+        border: 3px solid #8b700d;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateY(-20px);}
+        100% { opacity: 1; transform: translateY(0);}
+    }
+
+    .login-card h1 {
+        margin-bottom: 30px;
+        font-size: 28px;
+        color: #792909;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .login-card input {
+        width: 100%;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 2px solid #b19966;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: #fff7e6;
+        color: #792909;
+    }
+
+    .login-card input:focus {
+        border-color: #f7c408;
+        box-shadow: 0 0 10px rgba(247,196,8,0.5);
+        outline: none;
+    }
+
+    .senha-container {
+        position: relative;
+    }
+
+    .senha-container input {
+        padding-right: 50px;
+    }
+
+    .toggle-senha {
+        position: absolute;
+        right: 16px;
+        top: 37%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #792909;
+        transition: color 0.3s;
+    }
+
+    .toggle-senha:hover {
+        color: #8b700d;
+    }
+    .login-card form h1 {
+        font-family: 'Dancing Script', cursive; /* efeito desenhado */
+        font-weight: 700;
+        font-size: 50px;
+        color: #792909;
+        margin-bottom: 30px;
+}
+
+    .login-card button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #792909;
+        color: #f6e4a2;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .login-card button:hover {
+        background: #8b700d;
+        box-shadow: 0 10px 25px rgba(121, 41, 9, 0.4);
+    }
+
+    .forgot {
+        margin-top: 18px;
+        font-size: 14px;
+    }
+
+    .forgot a {
+        color: #792909;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .forgot a:hover {
+        color: #8b700d;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 500px) {
+        body::before {
+            width: 300px;
+            height: 300px;
+        }
+        .login-card {
+            padding: 40px 30px;
+        }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="login-card">
+    <form autocomplete="off" onsubmit="login(); return false;">
+        <h1>Coração do Contestado</h1>
+
+        <!-- Inputs falsos para evitar autocomplete -->
+        <input type="text" style="display:none">
+        <input type="password" style="display:none">
+
+        <!-- Inputs reais -->
+        <input type="text" id="usuario" placeholder="Usuário" autocomplete="off" name="campo1">
+
+        <div class="senha-container">
+            <input type="password" id="senha" placeholder="Senha" autocomplete="new-password" name="campo2">
+            <i data-feather="eye" class="toggle-senha"></i>
+        </div>
+
+        <button type="submit">Entrar</button>
+
+        <!-- Mensagem de erro -->
+        <div id="erroMsg" style="display:none; color:#ff3b3b; font-size:14px; font-weight:500; font-family:'Poppins', sans-serif; margin-top:10px;"></div>
+        
+        <div class="forgot">
+            <a href="#" onclick="redefinirSenha()">Redefinir senha</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    feather.replace(); // inicializa os ícones
+
+    const toggle = document.querySelector(".toggle-senha");
+    const senha = document.getElementById("senha");
+    const usuarioInput = document.getElementById("usuario");
+    const senhaInput = document.getElementById("senha");
+
+    // Bloqueio de zoom
+    window.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchmove', function(e) {
+        if (e.scale !== undefined && e.scale !== 1) e.preventDefault();
+    }, { passive: false });
+
+    // Olhinho funcional
+    toggle.addEventListener("click", () => {
+        if (senha.type === "password") {
+            senha.type = "text";
+            toggle.innerHTML = feather.icons['eye-off'].toSvg();
+        } else {
+            senha.type = "password";
+            toggle.innerHTML = feather.icons['eye'].toSvg();
+        }
+    });
+
+    // Limpar campos ao carregar
+    window.onload = () => {
+        usuarioInput.value = "";
+        senhaInput.value = "";
+    };
+
+    // Pressionar Enter para login
+    [usuarioInput, senhaInput].forEach(input => {
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") login();
+        });
+    });
+
+      function login() {
+    const usuario = usuarioInput.value;
+    const senhaVal = senhaInput.value;
+    const erroDiv = document.getElementById("erroMsg");
+
+    if (!usuario || !senhaVal) {
+        erroDiv.innerText = "Preencha usuário e senha";
+        erroDiv.style.display = "block";
+        return;
+    }
+
+    if (usuario === "caetano12345" && senhaVal === "Joaquim1975") {
+        window.location.href = "index.html";
+    } else {
+        erroDiv.innerText = "Usuário ou senha inválidos";
+        erroDiv.style.display = "block";
+    }
+}
+
+
+    function redefinirSenha() {
+        alert("Entre em contato com o administrador do sistema.");
+    }
+</script>
+
+</body>
+</html>
