@@ -20,7 +20,10 @@ body { display:flex; height:100vh; background:#f5f6fa; color:#333; }
     cursor:pointer;
     transition:0.2s;
 }
-
+.inativo {
+    opacity: 0.45;
+    filter: grayscale(60%);
+}
 .btn-delete:hover {
     background:#fecaca;
     transform:scale(1.05);
@@ -195,7 +198,7 @@ function filtrarProdutos() {
 
     info.innerText = resultados.length ? `${resultados.length} produto(s)` : "Nenhum produto encontrado.";
     resultados.forEach(p => {
-        tabela.innerHTML += `<tr>
+        tabela.innerHTML += `<tr class="${p.status ? '' : 'inativo'}">
             <td>${escapeHTML(p.codigo)}</td>
             <td>${escapeHTML(p.nome)}</td>
             <td>${escapeHTML(p.categoria||"-")}</td>
@@ -203,7 +206,8 @@ function filtrarProdutos() {
             <td>${p.estoque}</td>
           <td>
   <label class="switch">
-    <input type="checkbox" ${p.status?"checked":""}>
+   <input type="checkbox" ${p.status?"checked":""} onchange="alternarStatus('${p.codigo}')">
+
     <span class="slider"></span>
   </label>
 </td>
@@ -282,6 +286,7 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
 
 
