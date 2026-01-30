@@ -245,7 +245,7 @@ function adicionarProduto() {
     const categoriaEl = document.getElementById("categoria");
     const precoEl = document.getElementById("precoKg");
     const estoqueEl = document.getElementById("estoque");
-    const  = document.getElementById("msg");
+    const msgEl = document.getElementById("msg");
 
     const codigo = codigoEl.value.trim();
     const nome = nomeEl.value.trim();
@@ -253,12 +253,13 @@ function adicionarProduto() {
     if (!codigo || !nome) {
         msgEl.className = "msg-erro";
         msgEl.innerText = "Preencha código e nome!";
+        esconderAviso();
+        return;
     }
 
     const existente = produtos.find(p => p.codigo === codigo);
 
     if (existente) {
-        // 🔁 ATUALIZA
         existente.nome = nome;
         existente.categoria = categoriaEl.value;
         existente.precoKg = +precoEl.value || 0;
@@ -267,7 +268,6 @@ function adicionarProduto() {
         msgEl.className = "msg-ok";
         msgEl.innerText = "Produto atualizado com sucesso!";
     } else {
-        // ➕ NOVO
         produtos.push({
             codigo,
             nome,
@@ -282,6 +282,7 @@ function adicionarProduto() {
     }
 
     salvarProdutos(produtos);
+    esconderAviso();
 
     codigoEl.value = "";
     nomeEl.value = "";
@@ -289,6 +290,7 @@ function adicionarProduto() {
     precoEl.value = "";
     estoqueEl.value = "";
 }
+
 
 
 function alternarStatus(codigo) {
@@ -310,6 +312,7 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
 
 
