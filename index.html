@@ -297,7 +297,13 @@ function alternarStatus(codigo) {
     const p = produtos.find(x => x.codigo === codigo);
     if (p) { p.status = !p.status; salvarProdutos(produtos); filtrarProdutos(); }
 }
-
+function esconderAviso() {
+    const msgEl = document.getElementById("msg");
+    setTimeout(() => {
+        msgEl.innerText = "";
+        msgEl.className = "";
+    }, 4000); // 4 segundos
+}
 function removerProduto(codigo) {
     salvarProdutos(obterProdutos().filter(p => p.codigo !== codigo));
     filtrarProdutos();
