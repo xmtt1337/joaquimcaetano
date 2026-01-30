@@ -10,6 +10,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body { display:flex; height:100vh; background:#f5f6fa; color:#333; }
+.btn-delete {
+    background:#fee2e2;
+    color:#b91c1c;
+    border:none;
+    padding:6px 10px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.btn-delete:hover {
+    background:#fecaca;
+    transform:scale(1.05);
+}
 
 .sidebar { width:250px; background:#1e1e2f; color:#fff; display:flex; flex-direction:column; }
 .logo { padding:25px 20px; text-align:center; font-weight:700; font-size:20px; }
@@ -186,8 +201,18 @@ function filtrarProdutos() {
             <td>${escapeHTML(p.categoria||"-")}</td>
             <td>R$ ${p.precoKg.toFixed(2)}</td>
             <td>${p.estoque}</td>
-            <td><input type="checkbox" ${p.status?"checked":""} onchange="alternarStatus('${p.codigo}')"></td>
-            <td><button onclick="removerProduto('${p.codigo}')">✖</button></td>
+          <td>
+  <label class="switch">
+    <input type="checkbox" ${p.status?"checked":""}>
+    <span class="slider"></span>
+  </label>
+</td>
+
+           <td>
+  <button class="btn-delete" onclick="removerProduto('${p.codigo}')">
+    🗑 Remover
+  </button>
+</td>
         </tr>`;
     });
 }
@@ -257,5 +282,6 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
 
