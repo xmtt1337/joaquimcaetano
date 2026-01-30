@@ -253,7 +253,6 @@ function adicionarProduto() {
     if (!codigo || !nome) {
         msgEl.className = "msg-erro";
         msgEl.innerText = "Preencha código e nome!";
-        esconderAviso();
     }
 
     const existente = produtos.find(p => p.codigo === codigo);
@@ -267,7 +266,6 @@ function adicionarProduto() {
 
         msgEl.className = "msg-ok";
         msgEl.innerText = "Produto atualizado com sucesso!";
-        esconderAviso();
     } else {
         // ➕ NOVO
         produtos.push({
@@ -281,7 +279,6 @@ function adicionarProduto() {
 
         msgEl.className = "msg-ok";
         msgEl.innerText = "Produto cadastrado com sucesso!";
-        esconderAviso();
     }
 
     salvarProdutos(produtos);
@@ -313,6 +310,7 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
 
 
