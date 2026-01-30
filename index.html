@@ -22,36 +22,21 @@ body { display:flex; height:100vh; background:#f5f6fa; color:#333; }
 .menu-link { display:flex; align-items:center; gap:10px; padding:10px 20px; color:#cfd1d9; text-decoration:none; transition:0.2s; }
 .menu-link:hover { background:rgba(255,255,255,0.1); color:#fff; }
 
-.menu-link.ativo {
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    border-left: 3px solid #143e81;
-}
+.menu-link.ativo { background: rgba(255,255,255,0.15); color: #fff; border-left: 3px solid #143e81; }
 
 .seta { display:inline-block; transition: transform 0.3s ease; }
 .seta.aberta { transform: rotate(180deg); }
 
 .content { flex:1; padding:20px; }
 
-/* ===== BANNER ===== */
-.banner {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#8db2fd;
-    border-radius:18px;
-    padding:25px 30px;
-    margin-bottom:25px;
-}
+.banner { display:flex; justify-content:space-between; align-items:center; background:#8db2fd; border-radius:18px; padding:25px 30px; margin-bottom:25px; }
 .sayHello { max-width:65%; }
 .sayName { font-size:22px; font-weight:700; margin-bottom:6px; color:#0f172a; }
 .sayText { color:#475569; font-size:14px; line-height:1.5; }
 .imageShow img { width:150px; }
 
-/* ===== PAINEL ===== */
 .panel { background:#fff; border-radius:16px; padding:20px; box-shadow:0 10px 25px rgba(0,0,0,0.08); }
 .panel-header,.panel-header2 { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid #eee; }
-.panel-header h2,.panel-header2 h2 { font-size:22px; font-weight:600; }
 
 input { width:100%; padding:12px; margin-bottom:7px; border-radius:10px; border:1px solid #ddd; }
 .search { width:390px; padding:15px 26px; border-radius:10px; border:1px solid #ddd; }
@@ -68,6 +53,7 @@ td { border-bottom:1px solid #eee; }
 input:checked + .slider { background:#28a745; }
 input:checked + .slider:before { transform:translateX(20px); }
 
+button { cursor:pointer; }
 button:hover { opacity:0.9; transform:scale(1.02); }
 </style>
 </head>
@@ -88,8 +74,6 @@ button:hover { opacity:0.9; transform:scale(1.02); }
 
 <div class="content">
     <div id="main-content">
-
-        <!-- BANNER -->
         <div class="banner">
             <div class="sayHello">
                 <div class="sayName" id="saudacaoNome"></div>
@@ -99,37 +83,31 @@ button:hover { opacity:0.9; transform:scale(1.02); }
                 <img id="imgSaudacao" src="" alt="Boas-vindas">
             </div>
         </div>
-
     </div>
 </div>
 
 <script>
-/* ===== SAUDAÇÃO DINÂMICA ===== */
 function gerarSaudacao() {
     const hora = new Date().getHours();
-    let saudacao, texto, imagem;
+    let saudacao, texto;
 
     if (hora < 12) {
         saudacao = "Bom dia, Joaquim!";
         texto = "Comece o dia com foco. Pequenos avanços geram grandes resultados.";
-        imagem = "https://cdn-icons-png.flaticon.com/512/869/869869.png";
     } else if (hora < 18) {
         saudacao = "Boa tarde, Joaquim!";
-        texto = "Depois de uma manhã produtiva, mantenha o ritmo e finalize o dia forte.";
-        imagem = "https://cdn-icons-png.flaticon.com/512/869/869869.png";
+        texto = "Mantenha o ritmo e finalize o dia forte.";
     } else {
         saudacao = "Boa noite, Joaquim!";
-        texto = "Hora de desacelerar. Organize o amanhã e descanse a mente.";
-        imagem = "https://cdn-icons-png.flaticon.com/512/869/869869.png";
+        texto = "Hora de desacelerar e organizar o amanhã.";
     }
 
     document.getElementById("saudacaoNome").innerText = saudacao;
     document.getElementById("saudacaoTexto").innerText = texto;
-    document.getElementById("imgSaudacao").src = imagem;
 }
 gerarSaudacao();
 
-/* ===== MENU ===== */
+/* MENU */
 function toggleMenu() {
     const s = document.getElementById("submenu-produtos");
     const seta = document.getElementById("seta-menu");
@@ -143,7 +121,7 @@ function ativarMenu(el) {
     el.classList.add("ativo");
 }
 
-/* ===== PRODUTOS ===== */
+/* PRODUTOS */
 function escapeHTML(text) {
     return text.replace(/[&<>"']/g, m => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[m]));
 }
@@ -163,6 +141,7 @@ function carregarPesquisar() {
             <tbody id="tabelaProdutos"></tbody>
         </table>
     </div>`;
+    filtrarProdutos();
 }
 
 function filtrarProdutos() {
@@ -170,25 +149,37 @@ function filtrarProdutos() {
     const tabela = document.getElementById("tabelaProdutos");
     const info = document.getElementById("infoBusca");
     tabela.innerHTML = "";
-    if (!filtro) return;
 
-    const resultados = obterProdutos().filter(p =>
-        p.codigo.toLowerCase().includes(filtro) ||
-        p.nome.toLowerCase().includes(filtro) ||
-        (p.categoria || "").toLowerCase().includes(filtro)
-    );
+    let resultados = obterProdutos();
+    if (filtro) {
+        resultados = resultados.filter(p =>
+            p.codigo.toLowerCase().includes(filtro) ||
+            p.nome.toLowerCase().includes(filtro) ||
+            (p.categoria || "").toLowerCase().includes(filtro)
+        );
+    }
 
     info.innerText = resultados.length ? `${resultados.length} produto(s)` : "Nenhum produto encontrado.";
+
     resultados.forEach(p => {
-        tabela.innerHTML += `<tr>
+        const row = document.createElement("tr");
+        row.innerHTML = `
             <td>${escapeHTML(p.codigo)}</td>
             <td>${escapeHTML(p.nome)}</td>
             <td>${escapeHTML(p.categoria||"-")}</td>
             <td>R$ ${p.precoKg.toFixed(2)}</td>
             <td>${p.estoque}</td>
-            <td><input type="checkbox" ${p.status?"checked":""} onchange="alternarStatus('${p.codigo}')"></td>
-            <td><button onclick="removerProduto('${p.codigo}')">✖</button></td>
-        </tr>`;
+            <td>
+              <label class="switch">
+                <input type="checkbox" ${p.status?"checked":""}>
+                <span class="slider"></span>
+              </label>
+            </td>
+            <td><button>✖</button></td>
+        `;
+        row.querySelector("input").addEventListener("change", () => alternarStatus(p.codigo));
+        row.querySelector("button").addEventListener("click", () => removerProduto(p.codigo));
+        tabela.appendChild(row);
     });
 }
 
@@ -208,11 +199,40 @@ function carregarAdicionar() {
 
 function adicionarProduto() {
     const produtos = obterProdutos();
-    const codigo = codigo.value.trim(), nome = nome.value.trim();
-    if (!codigo || !nome) return;
-    produtos.push({ codigo, nome, categoria:categoria.value, precoKg:+precoKg.value||0, estoque:+estoque.value||0, status:true });
+
+    const codigoEl = document.getElementById("codigo");
+    const nomeEl = document.getElementById("nome");
+    const categoriaEl = document.getElementById("categoria");
+    const precoEl = document.getElementById("precoKg");
+    const estoqueEl = document.getElementById("estoque");
+    const msgEl = document.getElementById("msg");
+
+    const codigo = codigoEl.value.trim();
+    const nome = nomeEl.value.trim();
+
+    if (!codigo || !nome) {
+        msgEl.innerText = "Preencha código e nome!";
+        return;
+    }
+
+    if (produtos.some(p => p.codigo === codigo)) {
+        msgEl.innerText = "Código já existe!";
+        return;
+    }
+
+    produtos.push({
+        codigo,
+        nome,
+        categoria: categoriaEl.value,
+        precoKg: +precoEl.value || 0,
+        estoque: +estoqueEl.value || 0,
+        status: true
+    });
+
     salvarProdutos(produtos);
-    msg.innerText = "Produto salvo!";
+    msgEl.innerText = "Produto salvo com sucesso!";
+
+    codigoEl.value = nomeEl.value = categoriaEl.value = precoEl.value = estoqueEl.value = "";
 }
 
 function alternarStatus(codigo) {
@@ -228,5 +248,3 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
-
-
