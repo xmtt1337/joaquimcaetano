@@ -251,24 +251,38 @@ function adicionarProduto() {
     const nome = nomeEl.value.trim();
 
     if (!codigo || !nome) {
-    msgEl.className = "msg-erro";
-    msgEl.innerText = "Preencha código e nome!";
-    return;
-}
+        msgEl.className = "msg-erro";
+        msgEl.innerText = "Preencha código e nome!";
+        return;
+    }
 
+    const existente = produtos.find(p => p.codigo === codigo);
 
-    produtos.push({
-        codigo: codigo,
-        nome: nome,
-        categoria: categoriaEl.value,
-        precoKg: +precoEl.value || 0,
-        estoque: +estoqueEl.value || 0,
-        status: true
-    });
+    if (existente) {
+        // 🔁 ATUALIZA
+        existente.nome = nome;
+        existente.categoria = categoriaEl.value;
+        existente.precoKg = +precoEl.value || 0;
+        existente.estoque = +estoqueEl.value || 0;
+
+        msgEl.className = "msg-ok";
+        msgEl.innerText = "Produto atualizado com sucesso!";
+    } else {
+        // ➕ NOVO
+        produtos.push({
+            codigo,
+            nome,
+            categoria: categoriaEl.value,
+            precoKg: +precoEl.value || 0,
+            estoque: +estoqueEl.value || 0,
+            status: true
+        });
+
+        msgEl.className = "msg-ok";
+        msgEl.innerText = "Produto cadastrado com sucesso!";
+    }
 
     salvarProdutos(produtos);
-    msgEl.className = "msg-ok";
-msgEl.innerText = "Produto salvo!";
 
     codigoEl.value = "";
     nomeEl.value = "";
@@ -291,6 +305,7 @@ function removerProduto(codigo) {
 </script>
 </body>
 </html>
+
 
 
 
